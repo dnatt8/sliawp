@@ -12,3 +12,9 @@ body, html{
   background-color:#c2ffa2;
 
 }
+
+canvas {
+  display:block;
+  width:100vw;
+  height:100vh;
+}
