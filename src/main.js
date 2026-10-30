@@ -5,7 +5,7 @@ import { laberintoMapa, tamanio_bloque } from './laberinto.js';
 
 //escena, cam
 const scene = new THREE.Scene();
-scene.background= new THREE.Color(0xff0000);
+scene.background= new THREE.Color(0xe7f6ff);
 const camara = new THREE.PerspectiveCamera(
     75,
     window.innerWidth/window.innerHeight,
@@ -15,7 +15,7 @@ const camara = new THREE.PerspectiveCamera(
 
 //inicio de cam
 camara.position.set(1.5*tamanio_bloque, tamanio_bloque/2, 1.5*tamanio_bloque);
-//camara.lookAt(4*tamanio_bloque,0,3*tamanio_bloque);
+camara.lookAt(6*tamanio_bloque,0,5*tamanio_bloque);
 //renderizador
 const renderer= new THREE.WebGLRenderer({antialias:true});
 renderer.setSize(window.innerWidth,window.innerHeight);
@@ -41,5 +41,5 @@ laberintoMapa.forEach((fila,z) => {
 
 });
 
-renderer.render(scene,camara);
 
+    renderer.render(scene,camara);
