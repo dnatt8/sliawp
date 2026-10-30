@@ -3,8 +3,19 @@ import './style.css';
 import { laberintoMapa, tamanio_bloque } from './laberinto.js';
 
 
-document.querySelector('#app').innerHTML = `
-<h1> hola </h1>
-`
+//escena, cam
 const scene = new THREE.Scene();
 scene.background= new THREE.color(0xff0000)
+const camara = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth/window.innerHeight,
+    0.1,
+    1000
+);
+
+//inicio de cam
+camara.position.set(1.5*tamanio_bloque, tamanio_bloque/2, 1.5*tamanio_bloque);
+//renderizador
+const renderer= new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
+document.body.appendChild(renderer.domElement);
