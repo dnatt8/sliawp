@@ -14,8 +14,8 @@ const camara = new THREE.PerspectiveCamera(
 );
 
 //inicio de cam
-camara.position.set(1.5*tamanio_bloque, tamanio_bloque/2, 1.5*tamanio_bloque);
-camara.lookAt(6*tamanio_bloque,0,5*tamanio_bloque);
+camara.position.set(1*tamanio_bloque, tamanio_bloque/2, 1.5*tamanio_bloque);
+camara.rotation.y= Math.PI;
 //renderizador
 const renderer= new THREE.WebGLRenderer({antialias:true});
 renderer.setSize(window.innerWidth,window.innerHeight);
@@ -41,5 +41,42 @@ laberintoMapa.forEach((fila,z) => {
 
 });
 
+//nav automatica
+let velocidad= 0.03;
+let rotacionObjetivo=camara.rotation.y;
+let girando= false;
 
+function animate() {
+    requestAnimationFrame(animate);
+
+    if (!girando) {
+        camara.translateZ(-velocidad);
+        const dir= new THREE.Vector3();
+        camara.getWorldDirection(dir);
+        //proyectamos un punto hacia el frente
+        const frontPointX= camara.position.x + dir.x * (tamanio_bloque*0.6);
+        const frontPointZ= camara.position.z + dir.z * (tamanio_bloque*0.6);
+        //pasarlo pto a coord matriz laberinto
+        const frenteX= Math.floor(frontPointX/tamanio_bloque);
+        const frenteZ= Math.floor(frontPointZ/tamanio_bloque);
+
+        if (laberintoMapa[frenteZ] && laberintoMapa[frenteZ][frenteX] == 1){ //si tiene pared, giro
+            girando= true;
+            const sentido= (Math.random() < 0.5 ? -1 : 1) * (Math.PI / 2); //giro random d 90 grados
+            rotacionObjetivo= camara.rotation.y + sentido*(Math.PI/2);
+        }
+    } else {
+        const diffAngulo= rotacionObjetivo - camara.rotation.y;
+        //giro smooth
+        if (Math.abs(diffAngulo)<0.2){
+            camara.rotation.y= rotacionObjetivo;
+            girando=false;
+        } else {
+            camara.rotation.y+= Math.sign(diffAngulo)*0.04;
+        }
+    }
     renderer.render(scene,camara);
+}
+
+animate();
+
