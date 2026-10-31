@@ -42,7 +42,7 @@ laberintoMapa.forEach((fila,z) => {
 });
 
 //nav automatica
-let velocidad= 0.03;
+let velocidad= 0.015;
 let rotacionObjetivo=camara.rotation.y;
 let girando= false;
 
@@ -68,11 +68,11 @@ function animate() {
     } else {
         const diffAngulo= rotacionObjetivo - camara.rotation.y;
         //giro smooth
-        if (Math.abs(diffAngulo)<0.2){
+        if (Math.abs(diffAngulo)<0.05){
             camara.rotation.y= rotacionObjetivo;
             girando=false;
         } else {
-            camara.rotation.y+= Math.sign(diffAngulo)*0.04;
+            camara.rotation.y+= Math.sign(diffAngulo)*0.015;
         }
     }
     renderer.render(scene,camara);
